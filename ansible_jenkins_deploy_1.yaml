@@ -1,0 +1,27 @@
+name: "Configurar el tomcat remoto y desplegar el WAR"
+hosts: ApacheServer3
+become: true
+vars:
+      gitdir: "/tmp/Bookzy
+tasks:
+      - name: "Instalacion Tomcat"
+      apt: 
+          name:tomcat9
+          update_cache: yes
+      notify: "enable tomcat service"
+    - name: "deploy WAR file"
+    copy: 
+          src: "{{ girdir }}/target/demo.war
+          dest:"/var/lib/tomcat9/webapps/demo.war
+          
+ handlers:
+      - name: "enable tomcat service"
+       service:
+            name: tomcat9
+            state:started
+            enabled:yes
+      - name: "Restrat tomcat service post deployment"
+        service:
+          name: tomcat9
+          state: restarted
+        
